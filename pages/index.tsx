@@ -38,9 +38,14 @@ const Home: NextPage = () => {
   }, [message]);
 
   const addMessageToList = (message: string) => {
-    const arrayCopy = [...messageList];
-    arrayCopy.push(message);
-    setMessageList(arrayCopy);
+    // console.log(messageList);
+    // const arrayCopy = [...messageList];
+    // arrayCopy.push(message);
+    // console.log(arrayCopy);
+    // setMessageList(arrayCopy);
+    setMessageList((prevState) => {
+      return [...prevState, message];
+    });
   };
 
   const mapArray = (): ReactNode => {
@@ -73,7 +78,7 @@ const Home: NextPage = () => {
     setMessage(e.target.value);
   };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     handleSending();
     setMessage("");
