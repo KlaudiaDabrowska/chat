@@ -1,5 +1,5 @@
 .container {
-  padding: 0 2rem;
+  padding: 0;
 }
 
 .main {
@@ -106,6 +106,44 @@
 .logo {
   height: 1em;
   margin-left: 0.5rem;
+}
+
+.input {
+  width: 90%;
+  height: 25px;
+  margin-left: 2px;
+  margin-top: 10px;
+}
+
+.button {
+  width: 8%;
+  height: 25px;
+  margin-left: 6px;
+  background-color: transparent;
+  border-radius: 5px;
+}
+
+.window {
+  padding-top: 20px;
+  height: 50vh;
+}
+
+.box {
+  width: 98%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  flex-direction: column;
+  overflow-y: scroll;
+  border: 2px solid black;
+}
+
+.message {
+  margin-right: 10px;
+  font-size: 18px;
+  font-style: italic;
+  margin-bottom: 10px;
 }
 
 @media (max-width: 600px) {
