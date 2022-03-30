@@ -3,10 +3,34 @@ import Head from "next/head";
 import Image from "next/image";
 import { ReactNode, useEffect, useRef, useState } from "react";
 import styles from "../styles/Home.module.css";
+import { io, Socket } from "socket.io-client";
+import { IN_MESSAGE, OUT_MESSAGE } from "../consts";
 
 const Home: NextPage = () => {
   const [message, setMessage] = useState<string>("");
   const [messageList, setMessageList] = useState<string[]>(["hi", "hi", "hi"]);
+  const [socket, setSocket] = useState<Socket | null>(null);
+
+  //usuwa i dodaje komponent
+  //kiedy useffect sie skonczy, usunac wydarzenie
+  
+
+  useEffect(() => { 
+    const newSocket = io(`http://${window.location.hostname}:3000`);
+    setSocket(newSocket);
+    () => newSocket?.close();
+  }, []);
+
+  socket?.on("connected", (arg) => {
+    addMessageToList(arg);
+  });
+
+  const handleSending = () => {
+    if (message != null) {
+      addMessageToList(message);
+      socket?.emit("message",  message);
+    }
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMessage(e.target.value);
@@ -22,6 +46,7 @@ const Home: NextPage = () => {
     addMessageToList(message);
     setMessage("");
     e.preventDefault();
+    handleSending();
   };
 
   const mapArray = (): ReactNode => {
@@ -40,11 +65,11 @@ const Home: NextPage = () => {
     return addMessageToList(message);
   };
 
-  useEffect(() => {
-    setTimeout(() => {
-      addMessageToList("3 sek");
-    }, 3000);
-  }, []);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     addMessageToList("3 sek");
+  //   }, 3000);
+  // }, []);
 
   useEffect(() => {
     if (fieldRef.current) {
